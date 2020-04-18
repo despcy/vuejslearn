@@ -86,23 +86,22 @@
 
               <li class="navigation" id="navigation">
                 <a href="#" class="sidebar-toggle" data-toggle="#navigation">Navigation <i class="fa fa-angle-up"></i></a>
-                
                 <ul class="menu">
-                  <li class="active">
+                  <li v-bind:class="[$route.name === 'List' ? 'active' : '']">
                     <router-link to="/">
                       <i class="fa fa-home"></i>Home
     
                     </router-link>
 
                   </li>
-                  <li class="inactive">
+                  <li v-bind:class="[$route.name === 'Search' ? 'active' : '']">
                     <router-link to="/search">
                       <i class="fa fa-search"></i>Search
     
                     </router-link>
 
                   </li>                  
-                  <li class="inactive">
+                  <li v-bind:class="[$route.name === 'Shop' ? 'active' : '']">
                     <router-link to="/shop">
                       <i class="fa fa-shopping-cart"></i>Shopping Cart
     
