@@ -1,3 +1,6 @@
+
+
+
 <template>
   <div id="app">
     <!-- <div id="nav">
@@ -5,8 +8,6 @@
       <router-link to="/about">About</router-link>
     </div>
     <router-view/> -->
-
-
 
  
 
@@ -54,11 +55,7 @@
             </ul>
             <!-- /Page refresh -->
 
-            <!-- Search -->
-            <div class="search" id="main-search">
-              <i class="fa fa-search"></i> <input type="text" placeholder="Search...">
-            </div>
-            <!-- Search end -->
+
 
             <!-- Quick Actions -->
             <ul class="nav navbar-nav quick-actions">
@@ -67,7 +64,7 @@
               <li class="dropdown divided user" id="current-user">
 
                 <a class="dropdown-toggle options" data-toggle="dropdown" href="#">
-                  Guest <i class="fa fa-caret-down"></i>
+                  {{userName}} <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu arrow settings animated fadeInDown">
 
@@ -91,7 +88,6 @@
                 <a href="#" class="sidebar-toggle" data-toggle="#navigation">Navigation <i class="fa fa-angle-up"></i></a>
                 
                 <ul class="menu">
-                  
                   <li class="active">
                     <router-link to="/">
                       <i class="fa fa-home"></i>Home
@@ -100,13 +96,21 @@
 
                   </li>
                   <li class="inactive">
-                    <router-link to="/cart">
+                    <router-link to="/search">
+                      <i class="fa fa-search"></i>Search
+    
+                    </router-link>
+
+                  </li>                  
+                  <li class="inactive">
+                    <router-link to="/shop">
                       <i class="fa fa-shopping-cart"></i>Shopping Cart
     
-                        <span class="badge badge-red">2</span>
+                        <span v-if="shopCart>0" class="badge badge-red">{{shopCart}}</span>
                     </router-link>
       
                   </li>
+      
 
                 </ul>
 
@@ -136,6 +140,7 @@
 
 
         
+
         <!-- Page content -->
         <div id="content" class="col-md-12">
           
@@ -151,14 +156,25 @@
           <div class="pageheader">
             
 
-            <h2>Top 20 Movies</h2>
+            <h2>Title</h2>
 
-
+          <div class="breadcrumbs">
+              <ol class="breadcrumb">
+                <li>You are here</li>
+                <li><a href="/">Home</a></li>
+                <li><a href="#">Example Pages</a></li>
+                <li class="active">Timeline</li>
+              </ol>
+            </div>
 
           </div>
+
           <!-- /page header -->
           
           
+
+    <router-view></router-view>
+
 
 
 <!-- add component here -->
@@ -166,6 +182,7 @@
 
         </div>
         <!-- Page content end -->
+
 
 
 
@@ -191,20 +208,28 @@
 
 </template>
 
+<script>
 
-<style lang="scss">
-@import "assets/css/vendor/bootstrap/bootstrap.min.css";
-@import "assets/css/font-awesome.min.css";
-@import "assets/css/vendor/animate/animate.css";
-@import "assets/js/vendor/mmenu/css/jquery.mmenu.all.css";
-@import "assets/js/vendor/videobackground/css/jquery.videobackground.css";
-@import "assets/css/vendor/bootstrap-checkbox.css";
-@import "assets/js/vendor/chosen/css/chosen.min.css";
-@import "assets/js/vendor/chosen/css/chosen-bootstrap.css";
-@import "assets/js/vendor/datatables/css/dataTables.bootstrap.css";
-@import "assets/js/vendor/datatables/css/ColVis.css";
-@import "assets/js/vendor/datatables/css/TableTools.css";
-@import "assets/css/minimal.css";
-@import "assets/css/font-awesome.min.css";
+export default {
+data: function(){
+  return {
+    userName: 'TestUser',
+    shopCart: 5,
 
-</style>
+  }
+},
+mounted() {
+      // axios
+      // .get('https://api.coindesk.com/v1/bpi/currentprice.json')
+      // .then(response => (this.info = response))
+      //if user is not login, return to login page
+      this.shopCart=0;
+}
+
+}
+
+
+
+
+
+</script>
