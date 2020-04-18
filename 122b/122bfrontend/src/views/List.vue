@@ -130,29 +130,7 @@ export default {
     return {
         sortFirst:'title',
         enableSortFirst:true,
-        tableData: [{
-                id:1,
-                title: 'this is title',
-                year: '2002',
-                director: 'No. 189, Grove St, Los Angeles',
-                genres:[{
-                  id:1,
-                  name:'gen1'
-                },
-                {
-                  id:2,
-                  name:'gen2'
-                }],
-                stars:[{
-                  id:1,
-                  name:'star1'
-                },
-                {
-                  id:2,
-                  name:'star2'
-                }],
-                rating:3.8
-              }]
+        tableData: []
 
     }
   }

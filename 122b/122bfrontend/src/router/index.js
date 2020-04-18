@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import List from '../views/List.vue'
 import Shop from '../views/Shop.vue'
 import Search from '../views/Search.vue'
+import Item from '../views/Item.vue'
 Vue.use(VueRouter)
 
   const routes = [
@@ -16,6 +17,11 @@ Vue.use(VueRouter)
       name: 'Search',
       component: Search
     },
+     {
+          path: '/item/:type/:id',
+          name: 'Item',
+          component: Item
+   },
   {
     path: '/shop',
     name: 'Shop',
