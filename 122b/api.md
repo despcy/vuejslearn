@@ -52,70 +52,70 @@ alphabet is (0,1,2,3..A,B,C...X,Y,Z) or * to list all
       "pagesize":20,
       "movies":[
          {
-            "id":1,
+            "id":"mm1",
             "title":"this is title",
             "year":2002,
             "director":"No. 189, Grove St, Los Angeles",
             "genres":[
                {
-                  "id":1,
+                  "id":"mm1",
                   "name":"gen1"
                },
                {
-                  "id":2,
+                  "id":"mm2",
                   "name":"gen2"
                },
                {
-                  "id":2,
+                  "id":"mm2",
                   "name":"gen2"
                }
             ],
             "stars":[
                {
-                  "id":1,
+                  "id":"mm1",
                   "name":"star1"
                },
                {
-                  "id":2,
+                  "id":"mm2",
                   "name":"star2"
                },
                {
-                  "id":2,
+                  "id":"mm2",
                   "name":"gen2"
                }
             ],
             "rating":3.8
          },
          {
-            "id":2,
+            "id":"mm2",
             "title":"this is title",
             "year":2002,
             "director":"No. 189, Grove St, Los Angeles",
             "genres":[
                {
-                  "id":1,
+                  "id":"mm1",
                   "name":"gen1"
                },
                {
-                  "id":2,
+                  "id":"mm2",
                   "name":"gen2"
                },
                {
-                  "id":2,
+                  "id":"mm2",
                   "name":"gen2"
                }
             ],
             "stars":[
                {
-                  "id":1,
+                  "id":"mm1",
                   "name":"star1"
                },
                {
-                  "id":2,
+                  "id":"mm2",
                   "name":"star2"
                },
                {
-                  "id":2,
+                  "id":"mm2",
                   "name":"gen2"
                }
             ],
