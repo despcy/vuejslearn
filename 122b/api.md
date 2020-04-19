@@ -37,6 +37,8 @@ List movies in a genre:
 
 List movies start with alphabet:
 
+alphabet is (0,1,2,3..A,B,C...X,Y,Z) or * to list all
+
 ``/api/list?alphabet=a&page=1&pagesize=20&sort=title&order=asc``
 
 #### response:
@@ -132,28 +134,20 @@ List movies start with alphabet:
 List all movie genre sort alphabetical:
 ``/api/genres``
 
-List all movies sort alphabetical:
-``/api/titles``
-
-#### response
-
-sortKey: for movies, sortKey is alphabet, for genre, sortkey is genre name
+#### response:
 
 ```json
 {
-   "message":0,
-   "data":[
-      {
-         "sortKey":"t",
-         "title":"this is title"
-      },
-      {
-         "sortKey":"t",
-         "title":"this is title"
-      }
-   ]
+    message:0,
+    data:[
+        "gen1",
+        "gen2",
+        "gen3"
+    ]
 }
+
 ```
+
 
 ------------
 
