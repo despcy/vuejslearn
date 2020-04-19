@@ -22,7 +22,7 @@ list -->
       :total="1000">
     </el-pagination>
     </div></el-col>
-  <el-col :span="4" v-if="enableSortFirst"><div class="grid-content" justify="end">
+  <el-col :span="4" v-if="sortDrop || this.$route.name=== 'List' "><div class="grid-content" justify="end">
       <el-select v-model="sortFirst" clearable:false @change="onSortChange"  placeholder="Browse By">
       <el-option
       label="Title First"
@@ -50,8 +50,13 @@ list -->
         type="index">
       </el-table-column>
       <el-table-column
-        prop="title"
         label="Title">
+        <template slot-scope="scope">
+
+             <el-link type="success"  @click="onMovieClick(scope.$index)" >{{tableData[scope.$index].title}}</el-link>
+   
+    
+        </template>          
       </el-table-column>
       <el-table-column
         prop="year"
@@ -67,7 +72,7 @@ list -->
           
         <div v-for="(genreitem,idx) in tableData[scope.$index].genres" v-bind:key="idx">
           <el-col :span="6">
-             <el-link type="success"  @click="onGenreClick(genreitem.id)" >{{genreitem.name}}</el-link>
+             <el-tag type="success">{{genreitem.name}}</el-tag>
            </el-col>
          </div>      
     
@@ -78,7 +83,7 @@ list -->
         <template slot-scope="scope">
         <div v-for="(staritem,idx) in tableData[scope.$index].stars" v-bind:key="idx">
           <el-col :span="6">
-           <el-link type="warning"  @click="onGenreClick(staritem.id)" >{{staritem.name}}</el-link>
+           <el-link type="warning"  @click="onStarClick(staritem.id)" >{{staritem.name}}</el-link>
           </el-col>
         </div>      
         </template>  
@@ -103,15 +108,19 @@ list -->
 import movieData from '../assets/testdata.json'
 export default {
   name: 'List',
+  props: {
+    sortDrop: Boolean
+  },
   components: {
 
   },
   methods:{
-    onGenreClick: function(genreId){
-        alert(genreId);
+    onMovieClick: function(index){
+
+        this.$router.push({name:'Item',params:{type:'movie',id: this.tableData[index].id}});
     },
     onStarClick: function(starId){
-        alert(starId);
+        this.$router.push({name:'Item',params:{type:'star',id: starId}});
     },
     onPageSizeChange: function(newSize){
       alert(newSize);
@@ -129,7 +138,6 @@ export default {
   data: function() {
     return {
         sortFirst:'title',
-        enableSortFirst:true,
         tableData: []
 
     }

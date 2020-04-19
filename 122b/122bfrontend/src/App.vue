@@ -153,25 +153,17 @@
 
           <!-- page header -->
           <div class="pageheader">
-            
+         
 
-            <h2>Title</h2>
+            <h2>{{$route.name}}</h2>
 
-          <div class="breadcrumbs">
-              <ol class="breadcrumb">
-<el-breadcrumb separator="/">
-  <el-breadcrumb-item :to="{ path: '/' }">homepage</el-breadcrumb-item>
-  <el-breadcrumb-item><a href="/">promotion management</a></el-breadcrumb-item>
-  <el-breadcrumb-item>promotion list</el-breadcrumb-item>
-  <el-breadcrumb-item>promotion detail</el-breadcrumb-item>
-</el-breadcrumb>
-              </ol>
-            </div>
 
           </div>
 
           <!-- /page header -->
-          
+ <el-row  v-if=" $route.name === 'Item'" type="flex" class="row-bg" justify="end">
+ <el-button  type="primary" icon="el-icon-arrow-left" @click="$router.go(-1)">Back to list</el-button>
+</el-row>            
           
 
     <router-view></router-view>
