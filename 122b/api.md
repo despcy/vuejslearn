@@ -138,8 +138,8 @@ List all movie genre sort alphabetical:
 
 ```json
 {
-    message:0,
-    data:[
+    "message":0,
+    "data":[
         "gen1",
         "gen2",
         "gen3"
@@ -168,11 +168,11 @@ List all movie genre sort alphabetical:
       "rating":3.4,
       "stars":[
          {
-            "id":4,
+            "id":"s4",
             "name":"fff"
          },
          {
-            "id":5,
+            "id":"s5",
             "name":"ffdf"
          }
       ],
@@ -239,13 +239,13 @@ BODY:
 {
    "data":[
       {
-         "movieId":123,
+         "movieId":"m123",
          "movieTitle":"haha",
          "quantity":2,
          "price":344
       },
       {
-         "movieId":1213,
+         "movieId":"m1213",
          "movieTitle":"hafaha",
          "quantity":2,
          "price":3454
@@ -268,13 +268,13 @@ Get user cart:
    "message":0,
    "data":[
       {
-         "movieId":123,
+         "movieId":"m123",
          "movieTitle":"haha",
          "quantity":2,
          "price":344
       },
       {
-         "movieId":1213,
+         "movieId":"m1213",
          "movieTitle":"hafaha",
          "quantity":2,
          "price":3454
