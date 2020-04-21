@@ -105,7 +105,7 @@
                     <router-link to="/shop">
                       <i class="fa fa-shopping-cart"></i>Shopping Cart
     
-                        <span v-if="shopCart>0" class="badge badge-red">{{shopCart}}</span>
+                        <span v-if="cartNumber>0" class="badge badge-red">{{cartNumber}}</span>
                     </router-link>
       
                   </li>
@@ -202,13 +202,11 @@
 </template>
 
 <script>
-
+import cartData from './assets/cart.json'
 export default {
 data: function(){
   return {
     userName: 'TestUser',
-    shopCart: 5,
-
   }
 },
 mounted() {
@@ -216,7 +214,20 @@ mounted() {
       // .get('https://api.coindesk.com/v1/bpi/currentprice.json')
       // .then(response => (this.info = response))
       //if user is not login, return to login page
-      this.shopCart=0;
+      this.cart=cartData.data;
+
+
+},
+computed:{
+  cartNumber(){
+    var count=0;
+    console.log(this.cart);
+    for(var i=0;i<this.cart.length;i++){
+      count+=this.cart[i].quantity;
+    }
+
+    return count;
+  }
 }
 
 }

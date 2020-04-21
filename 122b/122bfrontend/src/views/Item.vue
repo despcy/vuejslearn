@@ -3,7 +3,7 @@
 
 <el-card class="box-card" shadow="always">
   <div slot="header" class="clearfix">
-    <span>{{movieData.title}}</span>
+    <span><h1>{{movieData.title}}</h1></span>
   </div>
   <div class="text item">
    <h4>Year:&nbsp;&nbsp;&nbsp;&nbsp;{{movieData.year}}</h4>  
@@ -20,7 +20,7 @@
    <el-divider content-position="left"><h4>Stars:</h4></el-divider>
    <div v-for="(star, idx) in movieData.stars" v-bind:key="idx">
 <el-link type="success"  @click="starClick(star.id)" ><h4>{{star.name}}</h4></el-link>
-
+  
    </div>  
 
 
@@ -33,6 +33,12 @@
 
    </div>
   </div>
+
+     <el-divider></el-divider>
+           <el-button
+          type="primary"
+           round
+          @click="handleAddCart()">ADD TO CART</el-button>
 </el-card>
 
     </div>
@@ -41,7 +47,7 @@
 
 <el-card class="box-card" shadow="always">
   <div slot="header" class="clearfix">
-    <span>{{starData.name}}</span>
+    <span><h1>{{starData.name}}</h1></span>
   </div>
     <div class="text item"><h4>BirthYear: {{starData.birthYear}}</h4></div>
    <el-divider content-position="left"><h4>Movies:</h4></el-divider>
@@ -54,6 +60,8 @@
 </template>
 
 <script>
+import movieD from '../assets/movieItem.json'
+import starD from '../assets/starItem.json'
 export default {
     name: 'Item',
     components:{
@@ -61,49 +69,13 @@ export default {
     },
     data: function(){
         return {
-            movieData:{
-                id:'1234',
-                title:'titleeee',
-                year: 2012,
-                director: 'ycx',
-                rating: 3.4,
-                stars:[
-                    {
-                        id: 4,
-                        name: 'fff'
-                    },
-                    {
-                                        
-                        id: 5,
-                        name: 'ffdf'
-                    }
-                ],
-                genres:[
-                    "gen1",
-                    "gen2",
-                    "gen3",
-                    "gen4"
-                ]
-            },
-            starData:{
-                id:'2233',
-                name:'hahahha',
-                birthYear:2020,
-                movies:[
-                    {
-                        id:'2233',
-                        name:'mov1'
-                    },
-                    {
-                        id:'3344',
-                        name:'mov2'
-                    }
-                ]
-            }
+            movieData:{},
+            starData:{}
         }
     },
     mounted() {
-    
+     this.movieData=movieD.data;
+     this.starData=starD.data;
     },
     methods: {
         starClick(sid){
@@ -111,6 +83,9 @@ export default {
         },
          movieClick(mid){
             this.$router.replace({name:'Item',params:{type:'movie',id: mid}})
+        },
+        handleAddCart(){
+            alert(this.movieData.id+this.movieData.title+" added");
         }
     }
 

@@ -108,7 +108,16 @@ list -->
       <el-table-column
         prop="rating"
         label="Rating">
-      </el-table-column>            
+      </el-table-column>   
+      <el-table-column
+      label="Add To Shopping Cart">
+      <template slot-scope="scope">
+        <el-button
+          type="primary"
+           round
+          @click="handleAddCart(scope.$index)">ADD</el-button>
+      </template>
+    </el-table-column>         
     </el-table>
 
   </div>
@@ -129,6 +138,11 @@ export default {
 
   },
   methods:{
+    handleAddCart: function(index){
+        var movieId=this.tableData.movies[index].id;
+        var movieTitle=this.tableData.movies[index].title;
+        alert(movieId+movieTitle+"added");
+    },
     onMovieClick: function(index){
 
         this.$router.push({name:'Item',params:{type:'movie',id: this.tableData.movies[index].id}});

@@ -1,18 +1,18 @@
 <template>
   <div class="search">
 <div v-if="this.$route.query.title == null && this.$route.query.year == null && this.$route.query.director == null &&this.$route.query.star == null">
-<el-form ref="form" :model="form" label-width="120px">
+<el-form  label-width="100px">
   <el-form-item label="Title">
-    <el-input v-model="form.title"></el-input>
+    <el-input v-model="title"></el-input>
   </el-form-item>
   <el-form-item label="Year">
-    <el-input type="number" v-model="form.year"></el-input>
+    <el-input type="number" v-model="year"></el-input>
   </el-form-item>
     <el-form-item label="Director">
-    <el-input v-model="form.director"></el-input>
+    <el-input v-model="director"></el-input>
   </el-form-item>
     <el-form-item label="Star Name">
-    <el-input v-model="form.name"></el-input>
+    <el-input v-model="name"></el-input>
   </el-form-item>
   <el-form-item>
     <el-button type="primary" @click="onSubmit">Search</el-button>
@@ -39,24 +39,29 @@ ListView
   },
   data() {
       return {
-        form: {
           title:'',
           year:'',
           director:'',
           name:''
-        }
       }
     },
   methods: {
       onSubmit() {
        // alert(this.form.title+this.form.year+this.form.director+this.form.name)
-         this.$router.push({name:'Search',query:{
-           title:this.form.title,
-           year:this.form.year,
-           director:this.form.director,
-           star:this.form.name
-         }})
+        if(this.title!='' || this.year!='' || this.director!='' || this.name!=''){
+         this.$router.push({name:'Search',query:this.genQuery()})
+        }else{
+          alert("Empty query!");
+        }
+      },
+      genQuery: function(){
+      return {
+        title:this.title,
+        year:this.year,
+        director:this.director,
+        name:this.name
       }
+    }
     }
 }
 </script>
