@@ -10,20 +10,22 @@
 //page
 list -->
 
-<el-row type="flex">
+<el-row :span="30" type="flex">
   <el-col :span="20"><div class="grid-content">
       <el-pagination
       @size-change="onPageSizeChange"
       @current-change="onPageChange"
       :page-sizes="[5,10,15,20,18,1000]"
+      :current-page=this.page
+      :page-size=this.pagesize
       hide-on-single-page:true
       background:true
       layout="sizes, prev, pager, next"
-      :total="1000">
+      :total=tableData.totalItem>
     </el-pagination>
     </div></el-col>
-  <el-col :span="4" v-if="sortDrop || this.$route.name=== 'List' "><div class="grid-content" justify="end">
-      <el-select v-model="sortFirst" clearable:false @change="onSortChange"  placeholder="Browse By">
+  <el-col :span="5" ><div class="grid-content" justify="end">
+      <el-select v-model="sort" clearable:false @change="onSortChange"  placeholder="Browse By">
       <el-option
       label="Title First"
       value="title">
@@ -35,6 +37,22 @@ list -->
   </el-select>
   
     </div></el-col>
+
+
+      <el-col :span="5" >
+        <div class="grid-content" justify="end">
+      <el-select v-model="order" clearable:false @change="onOrderChange"  placeholder="Order By">
+      <el-option
+      label="Asending"
+      value="asc">
+      </el-option>
+       <el-option
+      label="Descending"
+      value="desc">
+      </el-option>
+  </el-select>
+    </div>
+    </el-col>
 </el-row>
 
 
@@ -43,9 +61,8 @@ list -->
     <br>
 
     <el-table
-      :data="tableData"
-      style="width: 100%"
-      height=800>
+      :data="tableData.movies"
+      style="width: 100%">
       <el-table-column
         type="index">
       </el-table-column>
@@ -53,7 +70,7 @@ list -->
         label="Title">
         <template slot-scope="scope">
 
-             <el-link type="success"  @click="onMovieClick(scope.$index)" >{{tableData[scope.$index].title}}</el-link>
+             <el-link type="success"  @click="onMovieClick(scope.$index)" >{{tableData.movies[scope.$index].title}}</el-link>
    
     
         </template>          
@@ -70,7 +87,7 @@ list -->
         label="Genres">
         <template slot-scope="scope">
           
-        <div v-for="(genreitem,idx) in tableData[scope.$index].genres" v-bind:key="idx">
+        <div v-for="(genreitem,idx) in tableData.movies[scope.$index].genres" v-bind:key="idx">
           <el-col :span="6">
              <el-tag type="success">{{genreitem.name}}</el-tag>
            </el-col>
@@ -81,7 +98,7 @@ list -->
       <el-table-column
         label="Stars">
         <template slot-scope="scope">
-        <div v-for="(staritem,idx) in tableData[scope.$index].stars" v-bind:key="idx">
+        <div v-for="(staritem,idx) in tableData.movies[scope.$index].stars" v-bind:key="idx">
           <el-col :span="6">
            <el-link type="warning"  @click="onStarClick(staritem.id)" >{{staritem.name}}</el-link>
           </el-col>
@@ -105,39 +122,89 @@ list -->
 <script>
 // @ is an alias to /src
 
-import movieData from '../assets/testdata.json'
+import movieData from '../assets/listdata.json'
 export default {
   name: 'List',
-  props: {
-    sortDrop: Boolean
-  },
   components: {
 
   },
   methods:{
     onMovieClick: function(index){
 
-        this.$router.push({name:'Item',params:{type:'movie',id: this.tableData[index].id}});
+        this.$router.push({name:'Item',params:{type:'movie',id: this.tableData.movies[index].id}});
     },
     onStarClick: function(starId){
         this.$router.push({name:'Item',params:{type:'star',id: starId}});
+ 
     },
     onPageSizeChange: function(newSize){
-      alert(newSize);
+      this.pagesize=newSize;
+      this.$router.replace({query: this.genQuery()})
     },
     onPageChange: function(pageNum){
-      alert(pageNum);
+      this.page=pageNum;
+      this.$router.replace({query: this.genQuery()})
+    },
+    onOrderChange: function(od){
+       this.order=od;
+        this.$router.replace({query: this.genQuery()})
     },
     onSortChange: function(field){
-      console.log(field);
-    }    
+      
+      // this.$route.query.sort=field;
+      this.sort=field;
+      this.$router.replace({query: this.genQuery()})
+    },
+    genQuery: function(){
+      return {
+        genre:this.genre,
+        alphabet:this.alphabet,
+        year:this.year,
+        title:this.title,
+        director:this.director,
+        star:this.star,
+        sort:this.sort,
+        order:this.order,
+        page:this.page,
+        pagesize:this.pagesize
+      }
+    }   
   },
   mounted() {
-    this.tableData=movieData;
+
+    this.genre=this.$route.query.genre;
+    this.alphabet=this.$route.query.alphabet;
+    this.year=this.$route.query.year;
+    this.title=this.$route.query.title;
+    this.director=this.$route.query.director;
+    this.star=this.$route.query.star;
+    if(this.$route.query.sort!=null){
+    this.sort=this.$route.query.sort;
+    }
+    if(this.$route.query.order!=null){
+    this.order=this.$route.query.order;
+    }
+    if(this.$route.query.page!=null){
+    this.page=parseInt(this.$route.query.page);
+    }
+    if(this.$route.query.pagesize!=null){
+    this.pagesize=parseInt(this.$route.query.pagesize);
+    }
+
+    this.tableData=movieData.data;
   },
   data: function() {
     return {
-        sortFirst:'title',
+        genre:'',
+        alphabet:'',
+        year:'',
+        title:'',
+        director:'',
+        star:'',
+        sort:'title',
+        order:'asc',
+        page:1,
+        pagesize:20,
         tableData: []
 
     }

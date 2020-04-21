@@ -20,7 +20,7 @@
 </el-form>
 </div>
 <div v-else>
-<list-view sortDrop:false></list-view>
+<list-view></list-view>
 </div>
   </div>
 </template>

@@ -47,7 +47,7 @@ alphabet is (0,1,2,3..A,B,C...X,Y,Z) or * to list all
 {
    "message":0,
    "data":{
-      "totalPage":100,
+      "totalItem":100,
       "curPage":1,
       "pagesize":20,
       "movies":[

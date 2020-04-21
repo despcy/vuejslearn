@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import List from '../views/List.vue'
+import Browse from '../views/Browse'
 import Shop from '../views/Shop.vue'
 import Search from '../views/Search.vue'
 import Item from '../views/Item.vue'
@@ -9,8 +9,8 @@ Vue.use(VueRouter)
   const routes = [
   {
     path: '/',
-    name: 'List',
-    component: List
+    name: 'Browse',
+    component: Browse
   },
     {
       path: '/search',
