@@ -39,7 +39,7 @@ List movies start with alphabet:
 
 alphabet is (0,1,2,3..A,B,C...X,Y,Z) or * to list all
 
-``/api/list?alphabet=a&page=1&pagesize=20&sort=title&order=asc``
+``/api/listalpha?alphabet=a&page=1&pagesize=20&sort=title&order=asc``
 
 #### response:
 
