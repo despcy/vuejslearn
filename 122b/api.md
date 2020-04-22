@@ -225,8 +225,16 @@ List all movie genre sort alphabetical:
 
 #### request:
 
+
+Add user cart:
+```
+POST /api/cart/add
+
+BODY:
+movieId=mid&movieTitle=title
+```
+
 Update user cart: 
-为了偷懒你可以把body的json string直接存到session里然后get的时候直接包上message field返回
 
 ```http
 POST /api/cart/update

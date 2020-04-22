@@ -45,12 +45,32 @@
   <el-row type="flex"><h3>Total: {{totalMoney}}</h3></el-row>
   </div>
   <div v-else-if="active === 1">
+      <el-row type="flex"><h2>Total: {{totalMoney}}</h2></el-row>
+<el-form  label-width="150px">
+  <el-form-item label="First Name">
+    <el-input v-model="first"></el-input>
+  </el-form-item>
+  <el-form-item label="LastName">
+    <el-input  v-model="last"></el-input>
+  </el-form-item>
+    <el-form-item  label="Card Number">
+    <el-input type="number" v-model="number"></el-input>
+  </el-form-item>
+    <el-form-item label="Expiration date">
+    <el-input v-model="expire"></el-input>
+  </el-form-item>
 
+</el-form>
 
   </div>
   <div v-else-if="active === 2">
-
-
+<div align="middle">
+  <br>
+  <br>
+ <el-button type="success" @click="checkout" round>Check Out</el-button>
+   <br>
+  <br>
+</div>
   </div>
 
   <el-button-group>
@@ -66,7 +86,7 @@
 <script>
 // @ is an alias to /src
 
-import cData from '../assets/cartdata.json'
+import cData from '../assets/cart.json'
 export default {
   name: 'Shop',
   components: {
@@ -75,7 +95,11 @@ export default {
   data: function(){
     return {
       active:0,
-      cartData:[]
+      cartData:[],
+      first:'',
+      last:'',
+      number:0,
+      expire:''
     }
   },
   computed:{
@@ -88,7 +112,7 @@ export default {
     }
   },
   mounted() {
-    this.cartData=cData;
+    this.cartData=cData.data;
   },
   methods: {
     handleDelete(index){
@@ -98,6 +122,9 @@ export default {
     handleQuantity(index){
       
       console.log(this.cartData[index].quantity);
+    },
+    checkout(){
+
     }
   },
 }

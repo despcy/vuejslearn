@@ -141,7 +141,8 @@ export default {
     handleAddCart: function(index){
         var movieId=this.tableData.movies[index].id;
         var movieTitle=this.tableData.movies[index].title;
-        alert(movieId+movieTitle+"added");
+        console.log(movieId,"----",movieTitle);
+        
     },
     onMovieClick: function(index){
 

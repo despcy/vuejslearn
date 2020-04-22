@@ -85,7 +85,7 @@ export default {
             this.$router.replace({name:'Item',params:{type:'movie',id: mid}})
         },
         handleAddCart(){
-            alert(this.movieData.id+this.movieData.title+" added");
+            
         }
     }
 

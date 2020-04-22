@@ -8,16 +8,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 Vue.use(Router);
 Vue.config.productionTip = false
-Vue.mixin({
-  data() {
-    return {
-      cart:{}
-    }
-  },
-  methods: {
-    //add/Delete
-  },
-})
+
 new Vue({
   router:router,
   store,

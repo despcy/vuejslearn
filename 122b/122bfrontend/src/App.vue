@@ -105,7 +105,7 @@
                     <router-link to="/shop">
                       <i class="fa fa-shopping-cart"></i>Shopping Cart
     
-                        <span v-if="cartNumber>0" class="badge badge-red">{{cartNumber}}</span>
+                        <!-- <span v-if="cartNumber>0" class="badge badge-red">{{cartNumber}}</span> -->
                     </router-link>
       
                   </li>
@@ -219,15 +219,14 @@ mounted() {
 
 },
 computed:{
-  cartNumber(){
-    var count=0;
-    console.log(this.cart);
-    for(var i=0;i<this.cart.length;i++){
-      count+=this.cart[i].quantity;
-    }
+  // cartNumber(){
+  //   var count=0;
+  //   for(var i=0;i<this.cart.length;i++){
+  //     count+=this.cart[i].quantity;
+  //   }
 
-    return count;
-  }
+  //   return count;
+  // }
 }
 
 }
