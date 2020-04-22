@@ -87,7 +87,7 @@
               <li class="navigation" id="navigation">
                 <a href="#" class="sidebar-toggle" data-toggle="#navigation">Navigation <i class="fa fa-angle-up"></i></a>
                 <ul class="menu">
-                  <li v-bind:class="[$route.name === 'List' ? 'active' : '']">
+                  <li v-bind:class="[$route.name === 'Browse' ? 'active' : '']">
                     <router-link to="/">
                       <i class="fa fa-home"></i>Home
     
@@ -202,7 +202,7 @@
 </template>
 
 <script>
-import cartData from './assets/cart.json'
+
 export default {
 data: function(){
   return {
@@ -214,7 +214,8 @@ mounted() {
       // .get('https://api.coindesk.com/v1/bpi/currentprice.json')
       // .then(response => (this.info = response))
       //if user is not login, return to login page
-      this.cart=cartData.data;
+
+
 
 
 },

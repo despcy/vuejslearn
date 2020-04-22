@@ -131,7 +131,7 @@ list -->
 <script>
 // @ is an alias to /src
 
-import movieData from '../assets/listdata.json'
+
 export default {
   name: 'List',
   components: {
@@ -139,9 +139,24 @@ export default {
   },
   methods:{
     handleAddCart: function(index){
-        var movieId=this.tableData.movies[index].id;
-        var movieTitle=this.tableData.movies[index].title;
-        console.log(movieId,"----",movieTitle);
+  
+      
+            //post
+            this.axios.post('/api/cart/add',{
+                movieId:this.tableData.movies[index].id,
+                movieTitle:this.tableData.movies[index].title
+            }).then(
+                response=>{
+                    if(response.message==0){
+                        alert("Success!");
+                    }else if(response.message == -1){
+            alert('Auth Fail '+response.data);
+          }else{
+            alert(response.data);
+          }
+                }
+            )
+        
         
     },
     onMovieClick: function(index){
@@ -155,20 +170,24 @@ export default {
     onPageSizeChange: function(newSize){
       this.pagesize=newSize;
       this.$router.replace({query: this.genQuery()})
+      this.requestData();
     },
     onPageChange: function(pageNum){
       this.page=pageNum;
       this.$router.replace({query: this.genQuery()})
+      this.requestData();
     },
     onOrderChange: function(od){
        this.order=od;
         this.$router.replace({query: this.genQuery()})
+        this.requestData();
     },
     onSortChange: function(field){
       
       // this.$route.query.sort=field;
       this.sort=field;
       this.$router.replace({query: this.genQuery()})
+      this.requestData();
     },
     genQuery: function(){
       return {
@@ -183,6 +202,29 @@ export default {
         page:this.page,
         pagesize:this.pagesize
       }
+    }, 
+    requestData(){
+        var url='';
+    if(this.genre!=''){
+      url='/api/list?page='+this.page+'&pagesize='+this.pagesize+'&sort='+this.sort+'&order='+this.order+'&genre='+this.genre;
+    }else if(this.alphabet!=''){
+      url='/api/list?page='+this.page+'&pagesize='+this.pagesize+'&sort='+this.sort+'&order='+this.order+'&alphabet='+this.alphabet;
+    }else{
+      url='/api/search?page='+this.page+'&pagesize='+this.pagesize+'&sort='+this.sort+'&order='+this.order+'&title='+this.title+'&year='+this.year+'&director='+this.director+'&star='+this.star;
+
+    }
+    console.log(url);
+    this.axios.get(url).then(
+      response=>{
+        if(response.message == 0){
+          this.tableData=response.data;
+        }else if(response.message == -1){
+          alert("auth fail!"+response.data);
+        }else{
+          alert(response.data);
+        }
+      }
+    )
     }   
   },
   mounted() {
@@ -206,8 +248,11 @@ export default {
     this.pagesize=parseInt(this.$route.query.pagesize);
     }
 
-    this.tableData=movieData.data;
+//=========Perform query
+    this.requestData();
+
   },
+
   data: function() {
     return {
         genre:'',

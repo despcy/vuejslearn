@@ -33,8 +33,7 @@
 
 
 <script>
-// @ is an alias to /src
-import gdata from '../assets/genreTypes.json'
+
 import ListView from './List.vue'
 export default {
   name: 'Browse',
@@ -48,7 +47,18 @@ ListView
       }
     },
 mounted() {
-    this.data=gdata.data;
+    this.axios.get('/api/genres').then(
+        response=>{
+          if(response.message == 0){
+            this.data=response.data;
+          }else if(response.message == -1){
+            alert('Auth Fail '+response.data);
+          }else{
+            alert(response.data);
+          }
+        }
+      )
+
   },
   methods: {
       onSubmit(type,key) {

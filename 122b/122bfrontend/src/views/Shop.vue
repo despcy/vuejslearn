@@ -86,7 +86,7 @@
 <script>
 // @ is an alias to /src
 
-import cData from '../assets/cart.json'
+
 export default {
   name: 'Shop',
   components: {
@@ -112,21 +112,56 @@ export default {
     }
   },
   mounted() {
-    this.cartData=cData.data;
+    this.getCart();
   },
   methods: {
     handleDelete(index){
       //var data=cartData[index];
       this.cartData.splice(index,1);
+      this.updateCart();
     },
     handleQuantity(index){
-      
-      console.log(this.cartData[index].quantity);
+      console.log(index);
+      this.updateCart();
     },
     checkout(){
+        this.axios.post('/api/cart/checkout',{
+          first:this.first,
+          last:this.last,
+          number:this.number,
+          expire:this.expire
+        }).then(
+          response=>{
+            if(response.message==0){
+              alert('Success!');
+              this.getCart();
+            }else if(response.message==-1){
+              alert("auth fail "+response.data);
+            }else{
+              alert(response.data);
+            }
+          }
+        )
+    },
+    getCart(){
+      this.axios.get('/api/cart/show').then(
+        response=>{
+          if(response.message==0){
+            this.cartData=response.data;
+          }else if(response.message==-1){
+            alert('AuthFail'+response.data);
+          }else{
+            alert(response.data);
+          }
+        }
+      )
+    },
+    updateCart(){
+        const cdata= this.cartData;
+        this.axios.post('/api/cart/update',{data:cdata});
+      }
 
-    }
-  },
+  }
 }
 </script>
 

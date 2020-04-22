@@ -60,8 +60,7 @@
 </template>
 
 <script>
-import movieD from '../assets/movieItem.json'
-import starD from '../assets/starItem.json'
+
 export default {
     name: 'Item',
     components:{
@@ -74,18 +73,58 @@ export default {
         }
     },
     mounted() {
-     this.movieData=movieD.data;
-     this.starData=starD.data;
+            this.requestData();
+
     },
     methods: {
         starClick(sid){
             this.$router.replace({name:'Item',params:{type:'star',id: sid}})
+            this.requestData();
         },
          movieClick(mid){
             this.$router.replace({name:'Item',params:{type:'movie',id: mid}})
+            this.requestData();
         },
         handleAddCart(){
-            
+            //post
+            this.axios.post('/api/cart/add',{
+                movieId:this.movieData.id,
+                movieTitle:this.movieData.title
+            }).then(
+                response=>{
+                    if(response.message==0){
+                        alert("Success!");
+                    }else if(response.message == -1){
+            alert('Auth Fail '+response.data);
+          }else{
+            alert(response.data);
+          }
+                }
+            )
+        },
+        requestData(){
+                var url='';
+    if(this.$route.params.type === 'movie'){
+        url='/api/movie?movieId='+this.$route.params.query.id;
+    }else{
+        url='/api/star?starId='+this.$route.params.query.id;
+    }
+
+    this.axios.get(url).then(
+        response=>{
+          if(response.message == 0){
+    if(this.$route.params.type === 'movie'){
+       this.movieData=response.data;
+    }else{
+        this.starData=response.data;
+    }
+          }else if(response.message == -1){
+            alert('Auth Fail '+response.data);
+          }else{
+            alert(response.data);
+          }
+        }
+      )
         }
     }
 
