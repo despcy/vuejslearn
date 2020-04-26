@@ -315,7 +315,8 @@ first=chenxi&last=yang&number=1231234645541652&expire=0520
 {
    "message":0,
    "sid":123,
-   "data":[
+   "data":"success";
+   "cartList":[
       {
          "movieId":"m123",
          "title":"haha",
