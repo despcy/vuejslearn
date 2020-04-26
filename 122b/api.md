@@ -248,13 +248,13 @@ BODY:
    "data":[
       {
          "movieId":"m123",
-         "movieTitle":"haha",
+         "title":"haha",
          "quantity":2,
          "price":344
       },
       {
          "movieId":"m1213",
-         "movieTitle":"hafaha",
+         "title":"hafaha",
          "quantity":2,
          "price":3454
       }
@@ -277,13 +277,13 @@ Get user cart:
    "data":[
       {
          "movieId":"m123",
-         "movieTitle":"haha",
+         "title":"haha",
          "quantity":2,
          "price":344
       },
       {
          "movieId":"m1213",
-         "movieTitle":"hafaha",
+         "title":"hafaha",
          "quantity":2,
          "price":3454
       }
@@ -318,13 +318,13 @@ first=chenxi&last=yang&number=1231234645541652&expire=0520
    "data":[
       {
          "movieId":"m123",
-         "movieTitle":"haha",
+         "title":"haha",
          "quantity":2,
          "price":344
       },
       {
          "movieId":"m1213",
-         "movieTitle":"hafaha",
+         "title":"hafaha",
          "quantity":2,
          "price":3454
       }
