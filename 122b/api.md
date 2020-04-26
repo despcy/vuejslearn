@@ -314,6 +314,22 @@ first=chenxi&last=yang&number=1231234645541652&expire=0520
 ```json
 {
    "message":0,
-   "data":"success/fail"
+   "sid":123,
+   "data":[
+      {
+         "movieId":"m123",
+         "movieTitle":"haha",
+         "quantity":2,
+         "price":344
+      },
+      {
+         "movieId":"m1213",
+         "movieTitle":"hafaha",
+         "quantity":2,
+         "price":3454
+      }
+   ]
 }
 ```
+
+
