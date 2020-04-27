@@ -28,18 +28,18 @@ message: -1->auth fail
 
 
 Search movie: with substring matching:
-``/api/search?title=t&year=year&director=d&star=s&page=1&pagesize=20&sort=title&order=asc``
+``/api/search?title=t&year=year&director=d&star=s&page=1&pagesize=20&sort=title_rating&order=asc_desc``
 
 
 List movies in a genre:
 
-``/api/list?genre=gen&page=1&pagesize=20&sort=title&order=asc``
+``/api/list?genre=gen&page=1&pagesize=20&sort=title_rating&order=asc_desc``
 
 List movies start with alphabet:
 
 alphabet is (0,1,2,3..A,B,C...X,Y,Z) or * to list all
 
-``/api/listalpha?alphabet=a&page=1&pagesize=20&sort=title&order=asc``
+``/api/listalpha?alphabet=a&page=1&pagesize=20&sort=title_rating&order=asc_desc``
 
 #### response:
 
