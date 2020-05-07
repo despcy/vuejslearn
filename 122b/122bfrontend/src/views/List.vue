@@ -15,7 +15,7 @@ list -->
       <el-pagination
       @size-change="onPageSizeChange"
       @current-change="onPageChange"
-      :page-sizes="[5,10,15,20,18,1000]"
+      :page-sizes="[10,25,50,100]"
       :current-page=this.page
       :page-size=this.pagesize
       hide-on-single-page:true
@@ -27,12 +27,12 @@ list -->
   <el-col :span="5" ><div class="grid-content" justify="end">
       <el-select v-model="sort" clearable:false @change="onSortChange"  placeholder="Browse By">
       <el-option
-      label="Title First"
-      value="title">
+      label="Title then Rating"
+      value="title_rating">
       </el-option>
        <el-option
-      label="Genre First"
-      value="genre">
+      label="Rating then Title"
+      value="rating_title">
       </el-option>
   </el-select>
   
@@ -43,12 +43,20 @@ list -->
         <div class="grid-content" justify="end">
       <el-select v-model="order" clearable:false @change="onOrderChange"  placeholder="Order By">
       <el-option
-      label="Asending"
-      value="asc">
+      label="Asending,Asending"
+      value="asc_asc">
       </el-option>
-       <el-option
-      label="Descending"
-      value="desc">
+      <el-option
+      label="Asending,Descending"
+      value="asc_desc">
+      </el-option>
+      <el-option
+      label="Descending,Descending"
+      value="desc_desc">
+      </el-option>
+      <el-option
+      label="Descending,Asending"
+      value="desc_asc">
       </el-option>
   </el-select>
     </div>
@@ -89,7 +97,7 @@ list -->
           
         <div v-for="(genreitem,idx) in tableData.movies[scope.$index].genres" v-bind:key="idx">
           <el-col :span="6">
-             <el-tag type="success">{{genreitem.name}}</el-tag>
+             <el-tag @click="onGenreClick(genreitem.name)" type="success">{{genreitem.name}}</el-tag>
            </el-col>
          </div>      
     
@@ -99,9 +107,9 @@ list -->
         label="Stars">
         <template slot-scope="scope">
         <div v-for="(staritem,idx) in tableData.movies[scope.$index].stars" v-bind:key="idx">
-          <el-col :span="6">
+           <li>
            <el-link type="warning"  @click="onStarClick(staritem.id)" >{{staritem.name}}</el-link>
-          </el-col>
+           </li>
         </div>      
         </template>  
       </el-table-column>
@@ -142,23 +150,31 @@ export default {
   
       
             //post
-            this.axios.post('/api/cart/add',{
+            this.axios.post('/api/cart/add',null,{params:{
                 movieId:this.tableData.movies[index].id,
                 movieTitle:this.tableData.movies[index].title
-            }).then(
+            }}).then(
                 response=>{
-                    if(response.message==0){
+                    if(response.data.message==0){
                         alert("Success!");
-                    }else if(response.message == -1){
-            alert('Auth Fail '+response.data);
+                    }else if(response.data.message == -1){
+            alert('Auth Fail '+response.data.data);
           }else{
-            alert(response.data);
+            alert(response.data.data);
           }
                 }
             )
         
         
     },
+    onGenreClick: function(genName){
+       this.$router.push({name:'Browse',query:{
+           genre:genName
+         }})
+
+       
+      location.reload();
+    },  
     onMovieClick: function(index){
 
         this.$router.push({name:'Item',params:{type:'movie',id: this.tableData.movies[index].id}});
@@ -205,23 +221,25 @@ export default {
     }, 
     requestData(){
         var url='';
-    if(this.genre!=''){
-      url='/api/list?page='+this.page+'&pagesize='+this.pagesize+'&sort='+this.sort+'&order='+this.order+'&genre='+this.genre;
-    }else if(this.alphabet!=''){
-      url='/api/list?page='+this.page+'&pagesize='+this.pagesize+'&sort='+this.sort+'&order='+this.order+'&alphabet='+this.alphabet;
-    }else{
-      url='/api/search?page='+this.page+'&pagesize='+this.pagesize+'&sort='+this.sort+'&order='+this.order+'&title='+this.title+'&year='+this.year+'&director='+this.director+'&star='+this.star;
 
+    if(this.$route.name == 'Search'){
+            url='/api/search?page='+this.page+'&pagesize='+this.pagesize+'&sort='+this.sort+'&order='+this.order+'&title='+this.title+'&year='+this.year+'&director='+this.director+'&star='+this.star;
+
+    }else if(this.genre != null){
+      console.log(this.genre);
+      url='/api/list?page='+this.page+'&pagesize='+this.pagesize+'&sort='+this.sort+'&order='+this.order+'&genre='+this.genre;
+    }else if(this.alphabet != null){
+      url='/api/listalpha?page='+this.page+'&pagesize='+this.pagesize+'&sort='+this.sort+'&order='+this.order+'&alphabet='+this.alphabet;
     }
     console.log(url);
     this.axios.get(url).then(
       response=>{
-        if(response.message == 0){
-          this.tableData=response.data;
-        }else if(response.message == -1){
-          alert("auth fail!"+response.data);
+        if(response.data.message == 0){
+          this.tableData=response.data.data;
+        }else if(response.data.message == -1){
+          alert("auth fail!"+response.data.data);
         }else{
-          alert(response.data);
+          alert(response.data.data);
         }
       }
     )
@@ -261,10 +279,10 @@ export default {
         title:'',
         director:'',
         star:'',
-        sort:'title',
-        order:'asc',
+        sort:'title_rating',
+        order:'asc_asc',
         page:1,
-        pagesize:20,
+        pagesize:10,
         tableData: []
 
     }

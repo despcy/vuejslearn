@@ -29,7 +29,7 @@
     <div class="text item">
    <el-divider content-position="left"><h4>Genres:</h4></el-divider>
     <div v-for="(genre, idx) in movieData.genres" v-bind:key="idx">
-<h4>{{genre}}&nbsp;</h4>
+    <el-link @click="genreClick(genre.name)" type="primary">{{genre.name}}&nbsp;</el-link>
 
    </div>
   </div>
@@ -52,7 +52,7 @@
     <div class="text item"><h4>BirthYear: {{starData.birthYear}}</h4></div>
    <el-divider content-position="left"><h4>Movies:</h4></el-divider>
    <div v-for="(movie, idx) in starData.movies" v-bind:key="idx">
-<el-link type="success"  @click="movieClick(movie.id)" ><h4>{{movie.name}}</h4></el-link>
+<el-link type="success"  @click="movieClick(movie.id)" ><h4>{{movie.title}}</h4></el-link>
 
    </div> 
 </el-card>
@@ -73,7 +73,7 @@ export default {
         }
     },
     mounted() {
-            this.requestData();
+        this.requestData();
 
     },
     methods: {
@@ -85,43 +85,48 @@ export default {
             this.$router.replace({name:'Item',params:{type:'movie',id: mid}})
             this.requestData();
         },
+        genreClick(genName){
+          this.$router.push({name:'Browse',query:{
+           genre:genName
+         }})
+        },
         handleAddCart(){
             //post
-            this.axios.post('/api/cart/add',{
-                movieId:this.movieData.id,
+            this.axios.post('/api/cart/add',null,{params:{
+                movieId:this.movieData.id,             
                 movieTitle:this.movieData.title
-            }).then(
+            }}).then(
                 response=>{
-                    if(response.message==0){
+                    if(response.data.message==0){
                         alert("Success!");
-                    }else if(response.message == -1){
-            alert('Auth Fail '+response.data);
+                    }else if(response.data.message == -1){
+            alert('Auth Fail '+response.data.data);
           }else{
-            alert(response.data);
+            alert(response.data.data);
           }
                 }
             )
         },
         requestData(){
                 var url='';
-    if(this.$route.params.type === 'movie'){
-        url='/api/movie?movieId='+this.$route.params.query.id;
+    if(this.$route.params.type == 'movie'){
+        url='/api/movie?movieId='+this.$route.params.id;
     }else{
-        url='/api/star?starId='+this.$route.params.query.id;
+        url='/api/star?starId='+this.$route.params.id;
     }
 
     this.axios.get(url).then(
         response=>{
-          if(response.message == 0){
-    if(this.$route.params.type === 'movie'){
-       this.movieData=response.data;
+          if(response.data.message == 0){
+    if(this.$route.params.type == 'movie'){
+       this.movieData=response.data.data;
     }else{
-        this.starData=response.data;
+        this.starData=response.data.data;
     }
-          }else if(response.message == -1){
-            alert('Auth Fail '+response.data);
+          }else if(response.data.message == -1){
+            alert('Auth Fail '+response.data.data);
           }else{
-            alert(response.data);
+            alert(response.data.data);
           }
         }
       )

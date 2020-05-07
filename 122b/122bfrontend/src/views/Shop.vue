@@ -11,7 +11,7 @@
       :data="cartData"
       style="width: 100%">
       <el-table-column
-        prop="movieTitle"
+        prop="title"
         label="Title">
       </el-table-column>
       <el-table-column
@@ -43,7 +43,12 @@
     </el-table-column>  
   </el-table>
   <el-row type="flex"><h3>Total: {{totalMoney}}</h3></el-row>
+<el-button-group>
+  <el-button @click="active++" v-if="cartData.length > 0" type="primary">Next Step<i class="el-icon-arrow-right el-icon-right"></i></el-button>
+</el-button-group>
   </div>
+
+
   <div v-else-if="active === 1">
       <el-row type="flex"><h2>Total: {{totalMoney}}</h2></el-row>
 <el-form  label-width="150px">
@@ -61,22 +66,49 @@
   </el-form-item>
 
 </el-form>
-
+<el-button-group>
+  <el-button @click="active--"  type="primary" icon="el-icon-arrow-left">Previous Step</el-button>
+  <el-button @click="checkout"  type="success">Check out<i class="el-icon-arrow-right el-icon-right"></i></el-button>
+</el-button-group>
   </div>
   <div v-else-if="active === 2">
 <div align="middle">
   <br>
+  <h1 type="success">Success!</h1>
   <br>
- <el-button type="success" @click="checkout" round>Check Out</el-button>
+<h2>Total: {{totalMoney}}</h2>
+<h2>Detail:</h2>
+    <el-table
+      :data="cartData"
+      style="width: 100%">
+      <el-table-column
+        prop="title"
+        label="Title">
+      </el-table-column>
+      <el-table-column
+        prop="quantity"
+        label="Quantity">
+      </el-table-column>
+      <el-table-column
+        prop="price"
+        label="Price">
+      </el-table-column>
+      <el-table-column
+        label="Sale IDs">
+       <template slot-scope="scope">
+        <div v-for="(sidata,idx) in cartData[scope.$index].sid" v-bind:key="idx">
+          {{sidata}},&nbsp; 
+        </div>       
+      </template>       
+      </el-table-column>
+        
+    </el-table>
    <br>
   <br>
 </div>
   </div>
 
-  <el-button-group>
-  <el-button @click="active--" v-if="cartData.length > 0 && active != 0" type="primary" icon="el-icon-arrow-left">Previous Step</el-button>
-  <el-button @click="active++" v-if="cartData.length > 0 && active != 2" type="primary">Next Step<i class="el-icon-arrow-right el-icon-right"></i></el-button>
-</el-button-group>
+
   </div>
 </template>
 
@@ -98,8 +130,11 @@ export default {
       cartData:[],
       first:'',
       last:'',
-      number:0,
-      expire:''
+      number:'',
+      expire:'',
+      userId:'',
+      saleID:''
+
     }
   },
   computed:{
@@ -113,6 +148,11 @@ export default {
   },
   mounted() {
     this.getCart();
+    this.axios
+      .get('/api/user')
+      .then(response => {
+        this.userId=response.data.data.id;
+      })
   },
   methods: {
     handleDelete(index){
@@ -125,20 +165,22 @@ export default {
       this.updateCart();
     },
     checkout(){
-        this.axios.post('/api/cart/checkout',{
+        this.axios.post('/api/cart/checkout',null,{params:{
+          userId:this.userId,
           first:this.first,
           last:this.last,
           number:this.number,
           expire:this.expire
-        }).then(
+        }}).then(
           response=>{
-            if(response.message==0){
-              alert('Success!');
-              this.getCart();
-            }else if(response.message==-1){
-              alert("auth fail "+response.data);
+            if(response.data.message==0){
+              this.active=2;
+              this.cartData=response.data.data;
+              this.saleID=response.data.sid;
+            }else if(response.data.message==-1){
+              alert("session auth fail "+response.data.data);
             }else{
-              alert(response.data);
+              alert("Payment Info Error!");
             }
           }
         )
@@ -146,19 +188,19 @@ export default {
     getCart(){
       this.axios.get('/api/cart/show').then(
         response=>{
-          if(response.message==0){
-            this.cartData=response.data;
-          }else if(response.message==-1){
-            alert('AuthFail'+response.data);
+          if(response.data.message==0){
+            this.cartData=response.data.data;
+          }else if(response.data.message==-1){
+            alert('AuthFail'+response.data.data);
           }else{
-            alert(response.data);
+            alert(response.data.data);
           }
         }
       )
     },
     updateCart(){
         const cdata= this.cartData;
-        this.axios.post('/api/cart/update',{data:cdata});
+        this.axios.post('/api/cart/update',cdata);
       }
 
   }

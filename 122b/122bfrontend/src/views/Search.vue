@@ -59,7 +59,7 @@ ListView
         title:this.title,
         year:this.year,
         director:this.director,
-        name:this.name
+        star:this.name
       }
     }
     }

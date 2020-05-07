@@ -49,14 +49,12 @@ ListView
 mounted() {
     this.axios.get('/api/genres').then(
         response=>{
-          if(response.message === 0){
-            this.data=response.data;
-          }else if(response.message == -1){
-            alert('Auth Fail '+response.data);
+          if(response.data.message == 0){
+            this.data=response.data.data;
+          }else if(response.data.message == -1){
+            alert('Auth Fail '+response.data.data);
           }else{
-            console.log(response);
-            console.log(response.message);
-            alert(response.data);
+            alert(response.data.data);
           }
         }
       )

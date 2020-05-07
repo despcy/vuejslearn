@@ -69,7 +69,7 @@
                 <ul class="dropdown-menu arrow settings animated fadeInDown">
 
                   <li>
-                    <a href="#"><i class="fa fa-power-off"></i> Logout</a>
+                   <i class="fa fa-power-off" @click="logout"> Logout</i>
                   </li>
                 </ul>
 
@@ -103,7 +103,7 @@
                   </li>                  
                   <li v-bind:class="[$route.name === 'Shop' ? 'active' : '']">
                     <router-link to="/shop">
-                      <i class="fa fa-shopping-cart"></i>Shopping Cart
+                      <i class="fa fa-shopping-cart"></i>Check Out
     
                         <!-- <span v-if="cartNumber>0" class="badge badge-red">{{cartNumber}}</span> -->
                     </router-link>
@@ -155,7 +155,7 @@
           <div class="pageheader">
          
 
-            <h2>{{$route.name}}</h2>
+            <!-- <h2>{{$route.name}}</h2> -->
 
 
           </div>
@@ -210,14 +210,29 @@ data: function(){
   }
 },
 mounted() {
-      // axios
-      // .get('https://api.coindesk.com/v1/bpi/currentprice.json')
-      // .then(response => (this.info = response))
+      this.axios
+      .get('/api/user')
+      .then(response => {
+        this.userName=response.data.data.firstName+","+response.data.data.lastName;
+      })
       //if user is not login, return to login page
 
 
 
 
+},
+methods:{
+logout(){
+  this.axios.get('/api/logout').then(
+    response=>{
+      if(response.data.message==-1){
+        window.location.href = "/login";
+      }else{
+        alert("Logout Failed!");
+      }
+    }
+  )
+}
 },
 computed:{
   // cartNumber(){
